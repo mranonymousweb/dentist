@@ -130,13 +130,13 @@ CREATE TABLE `users` (
   `updated_at` timestamp NOT NULL DEFAULT current_timestamp()
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_general_ci;
 
---
--- Dumping data for table `users`
---
+-- --
+-- -- Dumping data for table `users`
+-- --
 
-INSERT INTO `users` (`id`, `mobile_number`, `active_code`, `first_name`, `last_name`, `password`, `is_admin`, `is_active`, `refresh_token`, `reset_token`, `created_at`, `updated_at`) VALUES
-(0, '09144535680', '', 'محمدجواد', 'میرزازاده', '$2y$10$W9kbAgCoO676hY7ACWF.JeXteoV6QTLNsMJmnW3zX4o31zPHIfvPK', 1, 1, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMCIsImV4cCI6MTc2NjA2Njg3MX0.vcjaezUvN1WAkPVQyY51JFylVgKoevB64EGD4dL3zdc', NULL, '2024-12-15 13:23:39', '2024-12-15 13:23:39'),
-(0, '09966439335', '393355', 'رضا', 'علیپور', 'Mm13861386', 1, 1, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMCIsImV4cCI6MTc2NjA2Njg3MX0.vcjaezUvN1WAkPVQyY51JFylVgKoevB64EGD4dL3zdc', NULL, '2024-12-16 14:03:52', '2024-12-16 14:03:52');
+-- INSERT INTO `users` (`id`, `mobile_number`, `active_code`, `first_name`, `last_name`, `password`, `is_admin`, `is_active`, `refresh_token`, `reset_token`, `created_at`, `updated_at`) VALUES
+-- (1, '09144535680', '', 'محمدجواد', 'میرزازاده', '$2y$10$W9kbAgCoO676hY7ACWF.JeXteoV6QTLNsMJmnW3zX4o31zPHIfvPK', 1, 1, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMCIsImV4cCI6MTc2NjA2Njg3MX0.vcjaezUvN1WAkPVQyY51JFylVgKoevB64EGD4dL3zdc', NULL, '2024-12-15 13:23:39', '2024-12-15 13:23:39'),
+-- (2, '09966439335', '393355', 'رضا', 'علیپور', 'Mm13861386', 1, 1, 'eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzI1NiJ9.eyJ1c2VyX2lkIjoiMCIsImV4cCI6MTc2NjA2Njg3MX0.vcjaezUvN1WAkPVQyY51JFylVgKoevB64EGD4dL3zdc', NULL, '2024-12-16 14:03:52', '2024-12-16 14:03:52');
 
 --
 -- Indexes for dumped tables
