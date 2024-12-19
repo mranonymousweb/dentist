@@ -28,6 +28,7 @@ const addImage = async () => {
       galleryImages.value.push({ image_url: newImage.value })
       newImage.value = ''
       alert('تصویر با موفقیت اضافه شد.')
+      window.location.reload() // رفرش صفحه بعد از افزودن تصویر
     }
   } catch (error) {
     console.error('Error adding image:', error)
@@ -42,11 +43,13 @@ const deleteImage = async (index, image) => {
   const confirmDelete = confirm('آیا مطمئن هستید که می‌خواهید این تصویر را حذف کنید؟')
   if (!confirmDelete) return
   isLoading.value = true
+  window.location.reload() // رفرش صفحه بعد از افزودن تصویر
   try {
-    const response = await axios.delete(`http://localhost:8000/gallery/${image.id}`)
+    const response = await axios.post('http://localhost:8000/gallery/delete', { id: image.id })
     if (response.data.success) {
       galleryImages.value.splice(index, 1) // حذف تصویر از لیست
       alert('تصویر با موفقیت حذف شد.')
+      window.location.reload() // رفرش صفحه بعد از حذف تصویر
     }
   } catch (error) {
     console.error('Error deleting image:', error)
@@ -63,52 +66,50 @@ onMounted(() => {
 </script>
 
 <template>
-    <AdminPageWrapper page="galery">
+  <AdminPageWrapper page="galery">
+    <div class="admin-panel">
+      <h2>پنل مدیریت گالری تصاویر</h2>
 
-  <div class="admin-panel">
-    <h2>پنل مدیریت گالری تصاویر</h2>
+      <!-- فرم افزودن تصویر -->
+      <div class="form-group mb-4">
+        <label for="image-url">لینک تصویر جدید:</label>
+        <input
+          v-model="newImage"
+          id="image-url"
+          type="text"
+          class="form-control"
+          placeholder="لینک تصویر را وارد کنید..."
+        />
+        <button class="btn btn-primary mt-2" @click="addImage" :disabled="isLoading">
+          افزودن تصویر
+        </button>
+      </div>
 
-    <!-- فرم افزودن تصویر -->
-    <div class="form-group mb-4">
-      <label for="image-url">لینک تصویر جدید:</label>
-      <input
-        v-model="newImage"
-        id="image-url"
-        type="text"
-        class="form-control"
-        placeholder="لینک تصویر را وارد کنید..."
-      />
-      <button class="btn btn-primary mt-2" @click="addImage" :disabled="isLoading">
-        افزودن تصویر
-      </button>
+      <!-- جدول نمایش تصاویر -->
+      <table class="table table-bordered">
+        <thead>
+          <tr>
+            <th>تصویر</th>
+            <th>لینک تصویر</th>
+            <th>عملیات</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr v-for="(image, index) in galleryImages" :key="index">
+            <td>
+              <img :src="image.image_url" alt="Gallery Image" class="img-thumbnail" style="width: 100px; height: 100px;" />
+            </td>
+            <td>{{ image.image_url }}</td>
+            <td>
+              <button class="btn btn-danger" @click="deleteImage(index, image)" :disabled="isLoading">
+                حذف
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
     </div>
-
-    <!-- جدول نمایش تصاویر -->
-    <table class="table table-bordered">
-      <thead>
-        <tr>
-          <th>تصویر</th>
-          <th>لینک تصویر</th>
-          <!-- <th>عملیات</th> -->
-        </tr>
-      </thead>
-      <tbody>
-        <tr v-for="(image, index) in galleryImages" :key="index">
-          <td>
-            <img :src="image.image_url" alt="Gallery Image" class="img-thumbnail" style="width: 100px; height: 100px;" />
-          </td>
-          <td>{{ image.image_url }}</td>
-          <!-- <td>
-             <button class="btn btn-danger" @click="deleteImage(index, image)" :disabled="isLoading">
-              حذف
-            </button> 
-          </td> -->
-        </tr>
-      </tbody>
-    </table>
-  </div>
-</AdminPageWrapper>
-
+  </AdminPageWrapper>
 </template>
 
 <style scoped>

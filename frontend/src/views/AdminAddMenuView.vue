@@ -12,7 +12,7 @@ const newMenu = ref({
     parent_id: null
 })
 
-// Fetch existing menus
+// دریافت منوهای موجود
 const fetchMenus = async () => {
     try {
         const response = await axios.get('http://localhost:8000/menus')
@@ -22,20 +22,21 @@ const fetchMenus = async () => {
     }
 }
 
-// Add a new menu
+// افزودن منو جدید
 const addMenu = async () => {
     try {
         const response = await axios.post('http://localhost:8000/menus', newMenu.value)
         if (response.data.success) {
             menus.value.push(response.data.menu)
             resetNewMenu()
+            window.location.reload() // رفرش صفحه پس از افزودن منو
         }
     } catch (error) {
         console.error('Error adding menu:', error)
     }
 }
 
-// Reset new menu form
+// بازنشانی فرم منو جدید
 const resetNewMenu = () => {
     newMenu.value = {
         title: '',
@@ -46,19 +47,21 @@ const resetNewMenu = () => {
     }
 }
 
-// Delete a menu
+// حذف منو
 const deleteMenu = async (menuId) => {
     try {
-        const response = await axios.delete(`http://localhost:8000/menus/${menuId}`)
+        const response = await axios.post('http://localhost:8000/menus/delete', { id: menuId })
+        window.location.reload() // رفرش صفحه پس از حذف منو
         if (response.data.success) {
             menus.value = menus.value.filter(menu => menu.id !== menuId)
+            window.location.reload() // رفرش صفحه پس از حذف منو
         }
     } catch (error) {
         console.error('Error deleting menu:', error)
     }
 }
 
-// Edit a menu
+// ویرایش منو
 const editMenu = (menu) => {
     newMenu.value = { ...menu }
 }
@@ -74,7 +77,7 @@ onMounted(() => {
     <div class="container mt-5">
         <h2 class="text-center mb-4">مدیریت منوها</h2>
 
-        <!-- Form to add new menu -->
+        <!-- فرم افزودن منو جدید -->
         <div class="card mb-4">
             <div class="card-header">
                 <h3>افزودن منو</h3>
@@ -109,7 +112,7 @@ onMounted(() => {
             </div>
         </div>
 
-        <!-- List of menus -->
+        <!-- لیست منوها -->
         <div class="card">
             <div class="card-header">
                 <h3>لیست منوها</h3>
@@ -121,10 +124,10 @@ onMounted(() => {
                             <strong>{{ menu.title }}</strong><br />
                             <small class="text-muted">{{ menu.url }}</small>
                         </div>
-                        <!-- <div>
-                            <button @click="editMenu(menu)" class="btn btn-warning btn-sm me-2">ویرایش</button>
+                        <div>
+                            <!-- <button @click="editMenu(menu)" class="btn btn-warning btn-sm me-2">ویرایش</button> -->
                             <button @click="deleteMenu(menu.id)" class="btn btn-danger btn-sm">حذف</button>
-                        </div> -->
+                        </div>
                     </li>
                 </ul>
             </div>

@@ -4,8 +4,31 @@ namespace Controllers;
 
 use Core\Controller;
 use Core\Database;
-
+use Core\Request;
+use Core\Response;
 class MenuController extends Controller {
+
+    public function deleteMenu(Request $request)
+    {
+        // دریافت شناسه از بدنه درخواست (داده‌های POST)
+        $id = $request->getBody()['id'] ?? null;
+
+        if ($id) {
+            $conn = new Database();
+            $db = $conn->conn(); // دریافت اتصال به پایگاه داده
+            $stmt = $db->prepare('DELETE FROM menus WHERE id = :id');
+            $stmt->bindParam(':id', $id, \PDO::PARAM_INT);
+
+            if ($stmt->execute()) {
+                return Response::json(['message' => 'منو با موفقیت حذف شد.']);
+            } else {
+                return Response::json(['error' => 'حذف منو انجام نشد.'], 500);
+            }
+        }
+
+        return Response::json(['error' => 'شناسه منو معتبر نیست.'], 400);
+    }
+
 
     public function getMenus() {
         try {

@@ -46,9 +46,11 @@ $router->register('POST', '/appointments', [AppointmentController::class, 'make'
 // اضافه کردن روت برای منوها
 $router->register('GET', '/menus', [MenuController::class, 'getMenus']);  // روت جدید برای منوها
 $router->register('POST', '/menus', [MenuController::class, 'addMenu']);
+$router->register('POST', '/menus/delete', [MenuController::class, 'deleteMenu']);
 // Register routes in your main routes file
 $router->register('GET', '/gallery-home', [GalleryController::class, 'getGalleryImages']);
 $router->register('POST', '/gallery', [GalleryController::class, 'addGalleryImage']);
+$router->register('POST', '/gallery/delete', [GalleryController::class, 'deleteGalleryImage']);
 
 // Initialize the app
 $app = new App($router);
